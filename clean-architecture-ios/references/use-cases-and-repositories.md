@@ -1,4 +1,3 @@
-````md
 # Use Cases, Repositories, Services, and Data Sources
 
 Use this reference when deciding whether a Use Case, Repository, Repository protocol, service, or Data Source is needed, or when reviewing thin pass-through layers.
