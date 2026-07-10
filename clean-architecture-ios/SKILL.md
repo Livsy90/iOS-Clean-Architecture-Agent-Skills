@@ -1,4 +1,3 @@
-````md
 ---
 name: clean-architecture-ios
 description: Use this skill when designing, reviewing, or refactoring Clean Architecture composition in Swift or iOS, including dependency direction, composition roots, dependency injection, use cases, repositories, data sources, model boundaries, and feature composition. Use concrete types by default. Introduce protocols only when a current, explicit architectural, substitution, integration, or module-boundary requirement justifies them. Do not use this skill for generic folder organization or ordinary SwiftUI structure unless dependency boundaries are part of the task.
