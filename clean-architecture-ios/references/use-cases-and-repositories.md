@@ -613,6 +613,3 @@ For each component, confirm:
 * a Data Source isolates a real mechanism rather than adding pass-through indirection.
 
 Prefer the simplest composition that preserves the required boundaries.
-
-```
-```
