@@ -1,0 +1,7 @@
+{
+  "name": "ios-clean-architecture-agent-skills",
+  "description": "A pragmatic iOS Clean Architecture skill for dependency direction, composition roots, Use Cases, Repositories, model boundaries, dependency lifetimes, and Swift module design.",
+  "version": "1.0.0",
+  "author": "Artem Mirzabekian (Livsy90)",
+  "repository": "https://github.com/Livsy90/iOS-Clean-Architecture-Agent-Skills"
+}
