@@ -1,0 +1,7 @@
+interface:
+  display_name: "iOS Clean Architecture"
+  short_description: "Design and review pragmatic Clean Architecture composition for Swift and iOS."
+  default_prompt: "Review this iOS architecture and propose the simplest composition that preserves meaningful boundaries."
+
+policy:
+  allow_implicit_invocation: true
