@@ -1,0 +1,5 @@
+{
+  "name": "ios-clean-architecture-agent-skills",
+  "version": "1.0.0",
+  "description": "A pragmatic iOS Clean Architecture skill for dependency direction, composition roots, Use Cases, Repositories, model boundaries, dependency lifetimes, and Swift module design."
+}
