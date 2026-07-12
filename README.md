@@ -1,7 +1,7 @@
 # iOS Clean Architecture Agent Skills
 
 <p align="center">
-  <img width="320" src="https://github.com/user-attachments/assets/a71688d2-54a3-4ea5-8362-e4659b3d46c6"/>
+  <img width="320" src="https://github.com/user-attachments/assets/dc2f28eb-61f9-4fe1-8186-a3b2628a573d" />
 </p>
 
 A pragmatic Agent Skill for designing, reviewing, and simplifying Clean Architecture in Swift and iOS applications.
