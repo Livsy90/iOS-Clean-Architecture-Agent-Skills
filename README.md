@@ -1,64 +1,51 @@
 # iOS Clean Architecture Agent Skills
 
 <p align="center">
-<img width="320" src="https://github.com/user-attachments/assets/a71688d2-54a3-4ea5-8362-e4659b3d46c6"/>
+  <img width="320" src="https://github.com/user-attachments/assets/a71688d2-54a3-4ea5-8362-e4659b3d46c6"/>
 </p>
 
-An Agent Skill for designing, reviewing, and simplifying Clean Architecture composition in Swift and iOS applications.
+A pragmatic Agent Skill for designing, reviewing, and simplifying Clean Architecture in Swift and iOS applications.
 
-The skill focuses on dependency direction, composition roots, Use Cases, Repositories, model boundaries, feature assembly, and Swift module design.
-
-Its default position is intentionally pragmatic:
+It helps AI coding agents reason about dependency direction, composition roots, Use Cases, Repositories, model boundaries, dependency lifetimes, feature assembly, and Swift module design without reproducing textbook layers mechanically.
 
 > Use concrete types by default. Introduce protocols only when a current and explicit requirement justifies them.
 
-The goal is not to reproduce textbook layers mechanically. The goal is to build the simplest architecture that preserves meaningful boundaries.
+The goal is to build the simplest architecture that preserves meaningful boundaries.
 
 ## What this skill helps with
 
-Use this skill when working on:
+Use `clean-architecture-ios` when working on:
 
 - Clean Architecture composition for an iOS feature or application;
 - dependency direction between Presentation, Application, Domain, Data, and Infrastructure;
-- composition roots, application containers, and feature factories;
+- composition roots, application containers, feature factories, and navigation composition;
 - dependency injection without protocol-first design;
-- deciding whether a Use Case is useful;
-- deciding whether a Repository or Data Source is needed;
-- reviewing thin pass-through layers;
+- deciding whether a Use Case, Repository, Data Source, mapper, or module adds value;
+- identifying thin pass-through layers and speculative abstractions;
 - DTO, persistence, domain, and presentation model boundaries;
 - external SDK isolation;
-- dependency lifetimes;
-- session-scoped dependency graphs;
-- SwiftUI preview and test composition;
-- logical boundaries and Swift Package modularization;
-- removing unnecessary protocols, wrappers, mappers, and modules.
+- application-, session-, and feature-scoped dependency lifetimes;
+- SwiftUI ownership, previews, and test composition;
+- logical boundaries and Swift Package modularization.
 
-## Core philosophy
+## Core principles
 
-### Concrete types by default
+### Prefer concrete types by default
 
-Dependency injection does not require protocols.
+Dependency injection does not require protocols. Start with concrete structs, classes, actors, values, functions, and closures.
 
-Start with concrete structs, classes, actors, values, functions, and closures. Introduce a protocol only when there is a visible need such as:
+Introduce a protocol when a current requirement needs one, such as:
 
 - multiple implementations that already exist;
-- a known second implementation based on current requirements;
-- a real module boundary that requires dependency inversion;
+- a known second implementation;
+- a real module boundary requiring dependency inversion;
 - a stable public or integration contract;
 - explicit live, offline, cached, platform, or test implementations;
 - an external capability that cannot be isolated more simply.
 
-Do not create protocols only because:
+Do not create protocols only because another implementation may exist someday, every dependency is expected to have a mock, or a naming convention expects `Protocol` and `Default`.
 
-- another implementation may exist someday;
-- every dependency is expected to have a mock;
-- the project uses dependency injection;
-- Clean Architecture is being applied;
-- a naming convention expects `Protocol` and `Default`.
-
-### Optional layers
-
-Use Cases, Repositories, services, Data Sources, mappers, factories, and modules are optional tools.
+### Treat layers as optional tools
 
 A simple feature may use:
 
@@ -68,7 +55,7 @@ View
 ViewModel
   ↓
 Concrete service or client
-````
+```
 
 A feature with meaningful data-access policy may use:
 
@@ -96,19 +83,84 @@ Repository or service
 
 Use only the layers required by the problem.
 
-### Boundaries before folders
+### Define boundaries before folders
 
-Clean Architecture is primarily about dependency direction and ownership, not folder names.
+Clean Architecture is primarily about dependency direction and ownership, not directory names.
 
-Directories called `Presentation`, `Domain`, and `Data` do not prove that an architecture is clean.
+Start with logical boundaries. Introduce separate Swift packages only when compile-time enforcement, ownership, visibility, reuse, build performance, or team structure justifies the additional complexity.
 
-Likewise, separate Swift packages are not required for every logical layer. Start with logical boundaries and introduce physical modules only when compile-time enforcement, ownership, visibility, reuse, or team structure justifies the additional complexity.
+## Installation
+
+### Skills CLI
+
+Install the skill with one command:
+
+```bash
+npx skills add Livsy90/iOS-Clean-Architecture-Agent-Skills --all
+```
+
+Or select it explicitly:
+
+```bash
+npx skills add Livsy90/iOS-Clean-Architecture-Agent-Skills \
+  --skill clean-architecture-ios
+```
+
+The CLI will ask which supported agents should receive the skill and whether to install it for the current project or globally.
+
+This method requires Node.js and `npx`.
+
+### Claude Code
+
+Install the repository as a Claude Code plugin:
+
+```text
+/plugin install Livsy90/iOS-Clean-Architecture-Agent-Skills
+```
+
+### Manual installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Livsy90/iOS-Clean-Architecture-Agent-Skills.git
+```
+
+For a repository-scoped installation, copy or symlink the skill into:
+
+```text
+<repository>/.agents/skills/clean-architecture-ios/
+```
+
+For a user-level installation, use:
+
+```text
+~/.agents/skills/clean-architecture-ios/
+```
+
+Example:
+
+```bash
+mkdir -p ~/.agents/skills
+
+cp -R iOS-Clean-Architecture-Agent-Skills/clean-architecture-ios \
+  ~/.agents/skills/
+```
+
+A symlink is convenient when developing or updating the skill locally:
+
+```bash
+ln -s /path/to/iOS-Clean-Architecture-Agent-Skills/clean-architecture-ios \
+  ~/.agents/skills/clean-architecture-ios
+```
 
 ## Skill structure
 
 ```text
 clean-architecture-ios/
 ├── SKILL.md
+├── agents/
+│   └── openai.yaml
 └── references/
     ├── use-cases-and-repositories.md
     ├── composition-root.md
@@ -117,54 +169,19 @@ clean-architecture-ios/
 
 ### `SKILL.md`
 
-The main skill file contains:
-
-* activation and exclusion criteria;
-* the concrete-first abstraction policy;
-* the core architecture workflow;
-* decision rules;
-* common gotchas;
-* output expectations;
-* validation requirements;
-* routing to the relevant references.
+Contains the activation boundaries, architecture workflow, concrete-first policy, decision rules, common gotchas, output expectations, validation requirements, and reference routing.
 
 ### `references/use-cases-and-repositories.md`
 
-Read when deciding:
-
-* whether a Use Case is needed;
-* whether a Repository is needed;
-* whether a Repository should have a protocol;
-* whether a service or Data Source adds value;
-* whether a layer is only forwarding calls;
-* how to test concrete dependencies without protocol-heavy mocks.
+Read when deciding whether Use Cases, Repositories, Repository protocols, services, or Data Sources add meaningful policy or only forward calls.
 
 ### `references/composition-root.md`
 
-Read when working with:
-
-* application composition roots;
-* application containers;
-* feature factories;
-* dependency lifetimes;
-* authenticated session graphs;
-* navigation composition;
-* SwiftUI ownership;
-* previews;
-* test graph assembly;
-* deterministic teardown.
+Read when building application containers, feature factories, navigation composition, dependency lifetimes, authenticated session graphs, SwiftUI previews, or test graphs.
 
 ### `references/boundaries-and-models.md`
 
-Read when deciding:
-
-* whether DTOs should remain separate from application models;
-* whether persistence models can be used directly;
-* where mapping belongs;
-* when view data is useful;
-* how to isolate external SDKs;
-* whether to create a Swift module;
-* how public feature entry points should be designed.
+Read when separating DTOs, persistence models, domain models, view data, external SDKs, logical layers, or Swift module boundaries.
 
 ## Example prompts
 
@@ -198,16 +215,16 @@ Should this feature become a separate Swift package?
 
 ## Expected behavior
 
-When designing architecture, the skill should:
+The skill should:
 
-1. inspect the existing dependency graph;
-2. identify the user-facing operation and current constraints;
+1. inspect the existing dependency graph and constraints;
+2. identify the user-facing operation;
 3. propose the smallest useful composition;
-4. keep concrete dependencies concrete unless abstraction is justified;
-5. explain every introduced protocol;
-6. identify unnecessary Use Cases, Repositories, Data Sources, or mappers;
-7. define the composition root and important dependency lifetimes;
-8. preserve correct dependency direction;
+4. preserve correct dependency direction;
+5. keep concrete dependencies concrete unless abstraction is justified;
+6. explain every introduced protocol or layer;
+7. identify unnecessary Use Cases, Repositories, Data Sources, mappers, or modules;
+8. define the composition root and important dependency lifetimes;
 9. include a minimal Swift example when useful;
 10. discuss testing, migration cost, and trade-offs.
 
@@ -217,74 +234,45 @@ For focused questions, the response should stay focused rather than returning a 
 
 This skill does not enforce:
 
-* a protocol for every dependency;
-* a Use Case for every ViewModel action;
-* a Repository for every endpoint;
-* one model per layer;
-* one mapper per model pair;
-* one Swift package per architectural layer;
-* a global dependency container;
-* a service locator;
-* a specific dependency-injection framework;
-* a single architecture suitable for every project.
+- a protocol for every dependency;
+- a Use Case for every ViewModel action;
+- a Repository for every endpoint;
+- one model or mapper per layer;
+- one Swift package per architectural layer;
+- a global dependency container or service locator;
+- a particular dependency-injection framework;
+- one architecture suitable for every project.
 
-## Installation
-
-Place the skill in a repository-scoped Agent Skills directory:
+## Repository structure
 
 ```text
-.agents/
-└── skills/
-    └── clean-architecture-ios/
+iOS-Clean-Architecture-Agent-Skills/
+├── .claude-plugin/
+│   └── plugin.json
+├── clean-architecture-ios/
+│   ├── SKILL.md
+│   ├── agents/
+│   │   └── openai.yaml
+│   └── references/
+│       ├── use-cases-and-repositories.md
+│       ├── composition-root.md
+│       └── boundaries-and-models.md
+├── gemini-extension.json
+├── LICENSE
+└── README.md
 ```
 
-Or install it in the user-level skills directory:
+## Updating
 
-```text
-~/.agents/skills/clean-architecture-ios/
+When installed through the Skills CLI, run the installation command again to update the skill.
+
+For a cloned repository, pull the latest changes:
+
+```bash
+git pull
 ```
 
-The final structure should look like this:
-
-```text
-.agents/skills/clean-architecture-ios/
-├── SKILL.md
-└── references/
-    ├── use-cases-and-repositories.md
-    ├── composition-root.md
-    └── boundaries-and-models.md
-```
-
-## Design principles
-
-* Prefer explicit initializer injection.
-* Prefer concrete types by default.
-* Prefer capabilities over generic abstractions.
-* Prefer domain-oriented APIs over transport-oriented APIs.
-* Prefer feature-level composition over one global screen factory.
-* Prefer logical boundaries before physical modularization.
-* Prefer application-owned models over leaked DTO or SDK types.
-* Prefer stable semantic identity over generated presentation identity.
-* Prefer focused test seams over a mock for every type.
-* Prefer incremental correction over speculative redesign.
-* Prefer the simplest composition that preserves the required boundaries.
-
-## Validation
-
-A proposed architecture should be rejected or revised when:
-
-* concrete infrastructure is created inside a ViewModel or Use Case;
-* protocols exist without a current explicit reason;
-* a Use Case only mirrors a Repository method without boundary value;
-* a Repository only renames an API client call;
-* Data Sources add no mapping, policy, lifecycle, isolation, or error translation;
-* DTO or SDK types leak across inappropriate boundaries;
-* Domain imports transport or persistence types;
-* dependency lifetimes are unclear;
-* user-specific state survives session replacement unexpectedly;
-* SwiftUI evaluation recreates identity-sensitive dependencies;
-* physical modules add more cost than protection;
-* the resulting graph is harder to explain than the original implementation.
+A symlinked installation uses the updated checkout automatically.
 
 ## License
 
